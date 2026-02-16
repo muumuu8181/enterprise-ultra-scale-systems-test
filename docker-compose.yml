@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - smart-city-net
+
+  traffic-collector:
+    build:
+      context: .
+      dockerfile: services/traffic-collector/Dockerfile
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+    restart: always
+    depends_on:
+      - mqtt-broker
+    networks:
+      - smart-city-net
+
+  data-ingestion:
+    build:
+      context: .
+      dockerfile: services/data-ingestion/Dockerfile
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+    volumes:
+      - ./data:/app/data
+    restart: always
+    depends_on:
+      - mqtt-broker
+    networks:
+      - smart-city-net
+
+  urban-api:
+    build:
+      context: .
+      dockerfile: services/urban-api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - smart-city-net
+
+networks:
+  smart-city-net:
+    driver: bridge
