@@ -1,0 +1,19 @@
+# Data Management
+dvc
+pandas
+numpy
+
+# Model Training
+torch
+tensorflow
+jax
+ray
+horovod
+deepspeed
+
+# Monitoring
+mlflow
+prometheus-client
+
+# Testing
+pytest
