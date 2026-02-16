@@ -1,0 +1,16 @@
+# Binaries
+main
+main.exe
+*.exe
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS specific
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
