@@ -1,0 +1,8 @@
+{% block content %}
+<h2>{{ case.title }}</h2>
+<p>Number: {{ case.case_number }}</p>
+<p>Type: {{ case.get_case_type_display }}</p>
+<p>Status: {{ case.get_status_display }}</p>
+<p>Description: {{ case.description }}</p>
+<a href="{% url 'case_list' %}">Back to list</a>
+{% endblock %}

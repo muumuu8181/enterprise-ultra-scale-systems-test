@@ -1,0 +1,11 @@
+{% block content %}
+<h2>Cases</h2>
+<a href="{% url 'case_create' %}">New Case</a>
+<ul>
+{% for case in cases %}
+    <li><a href="{% url 'case_detail' case.case_number %}">{{ case.case_number }}</a>: {{ case.title }} ({{ case.get_status_display }})</li>
+{% empty %}
+    <li>No cases yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}
