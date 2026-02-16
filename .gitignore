@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.log
+backend/db.sqlite3
+frontend/dist/
+frontend/node_modules/
+backend/venv/
