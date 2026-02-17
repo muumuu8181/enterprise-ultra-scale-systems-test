@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+asyncpg
+databases
+elasticsearch
+aiokafka
+websockets
+redis
+pytest
+pytest-asyncio
+httpx
