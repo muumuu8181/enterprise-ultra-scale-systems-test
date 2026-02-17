@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-core-backend
+  labels:
+    app: banking-core
+    component: backend-java
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: banking-core
+      component: backend-java
+  template:
+    metadata:
+      labels:
+        app: banking-core
+        component: backend-java
+    spec:
+      containers:
+      - name: backend-java
+        image: banking-core-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "k8s"
+        - name: DB_HOST
+          value: "banking-postgres"
+        - name: DB_PORT
+          value: "5432"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 20
