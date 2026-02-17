@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy[asyncio]
+pydantic
+psycopg2-binary
+asyncpg
+redis
+celery
+minio
+python-multipart
