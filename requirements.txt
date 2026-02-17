@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy[asyncio]
+pgvector
+pydantic
+pytest
+httpx
+asyncpg
+greenlet
+numpy
