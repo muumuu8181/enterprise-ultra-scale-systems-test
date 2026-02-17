@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+sqlalchemy
+aiosqlite
+pydantic
+celery
+redis
+minio
+asyncpg
+apscheduler
+pytest-asyncio
+fakeredis
+python-dotenv
+alembic
+psycopg2-binary
+pytest
+httpx
