@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-platform-api
+  labels:
+    app: game-platform
+spec:
+  # レプリカ数: 5
+  replicas: 5
+  selector:
+    matchLabels:
+      app: game-platform
+  strategy:
+    type: RollingUpdate
+    # ローリングアップデート設定
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: game-platform
+    spec:
+      containers:
+      - name: game-platform
+        image: muumuu8181/game-platform:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          # リソース要求と制限 (HPAのために必須)
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: game-platform-secrets
+              key: database-url
+        - name: REDIS_URL
+          value: "redis://redis-cluster:6379"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5

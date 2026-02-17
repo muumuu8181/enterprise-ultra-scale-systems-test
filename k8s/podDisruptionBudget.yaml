@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: game-platform-pdb
+spec:
+  # 最小利用可能数: 3 (ローリングアップデート時などの可用性保証)
+  minAvailable: 3
+  selector:
+    matchLabels:
+      app: game-platform

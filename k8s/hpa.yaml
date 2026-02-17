@@ -1,0 +1,20 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: game-platform-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: game-platform-api
+  # 最小レプリカ数: 5, 最大レプリカ数: 50 (ガチャイベント時のスケールアウト対応)
+  minReplicas: 5
+  maxReplicas: 50
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        # CPU使用率が60%を超えた場合にスケールアウト
+        averageUtilization: 60
