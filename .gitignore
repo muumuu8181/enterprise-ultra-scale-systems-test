@@ -25,3 +25,13 @@ trading_system
 # IDEs
 .vscode/
 .idea/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+*.db
+.venv/
+venv/
+.env
+.pytest_cache/

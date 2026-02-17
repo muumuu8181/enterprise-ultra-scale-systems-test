@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+aiosqlite
+asyncpg
+pydantic
+pydantic-settings
+paho-mqtt
+minio
+redis
+pytest
+httpx
+python-multipart
+websockets
