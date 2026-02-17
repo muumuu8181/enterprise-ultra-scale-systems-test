@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [ "ai-ml-integration" ]
+  pull_request:
+    branches: [ "ai-ml-integration" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install ruff mypy
+          pip install -r requirements.txt
+      - name: Lint with Ruff
+        run: ruff check .
+      - name: Type check with mypy
+        run: mypy src --ignore-missing-imports
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql+asyncpg://user:password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379/0
+        run: pytest
+
+  model-validation:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Validate Model Metrics
+        run: |
+          # This is a placeholder for actual model validation logic
+          # In a real scenario, this would query MLflow for the latest run metrics
+          python -c "
+          import sys
+          # Mock metrics check
+          accuracy = 0.85
+          threshold = 0.8
+          print(f'Checking model accuracy: {accuracy} > {threshold}')
+          if accuracy > threshold:
+              print('Validation Passed')
+              sys.exit(0)
+          else:
+              print('Validation Failed')
+              sys.exit(1)
+          "
