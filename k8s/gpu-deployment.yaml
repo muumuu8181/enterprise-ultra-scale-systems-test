@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpu-deployment
+  labels:
+    app: gpu-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gpu-app
+  template:
+    metadata:
+      labels:
+        app: gpu-app
+    spec:
+      containers:
+      - name: gpu-container
+        image: nvidia/cuda:11.0-base  # 仮のイメージ
+        resources:
+          limits:
+            # NVIDIA GPUを1つリクエスト
+            nvidia.com/gpu: 1
+        # コンテナが即終了しないように常駐プロセスを実行
+        command: ["/bin/sh", "-c", "sleep infinity"]

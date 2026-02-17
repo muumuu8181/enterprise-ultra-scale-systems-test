@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-job
+spec:
+  # ジョブ完了後、3600秒（1時間）で削除
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      containers:
+      - name: training-container
+        image: python:3.9  # 仮のイメージ
+        command: ["python", "train.py"]
+      restartPolicy: Never

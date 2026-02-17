@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  labels:
+    app: minio
+spec:
+  # 分散モードではDNS解決のためにHeadless Service (ClusterIP: None) が必要
+  clusterIP: None
+  selector:
+    app: minio
+  ports:
+  - port: 9000
+    name: minio
+  - port: 9001
+    name: console
