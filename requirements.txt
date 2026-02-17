@@ -1,0 +1,10 @@
+sqlalchemy
+aiosqlite
+redis
+fakeredis
+scikit-learn
+pytest
+pytest-asyncio
+greenlet
+numpy
+joblib
