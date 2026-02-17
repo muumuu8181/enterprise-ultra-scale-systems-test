@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+celery
+redis
+psycopg2-binary
+pytest
+httpx
+alembic
