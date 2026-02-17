@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+psycopg2-binary
+asyncpg
+celery
+redis
+influxdb-client
+pydantic
+pydantic-settings
+python-dotenv
+pytest
+httpx
+shapely
