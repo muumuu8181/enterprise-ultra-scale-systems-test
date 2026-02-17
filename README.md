@@ -1,35 +1,24 @@
-# 証券会社向けトレーディングシステム（株式・債券・デリバティブ）
+# Semiconductor Manufacturing Platform
 
-予想コード量: 240,000行以上
+This platform manages wafer lots, equipment, process steps, and yield analysis.
 
-## 取引機能
-- 注文管理：成行・指値・逆指値、アルゴリズム取引（VWAP、TWAP、Iceberg）
-- 執行管理：スマートオーダールーティング（複数市場への最良執行）
-- リスク管理：プレトレードリスクチェック（与信枠、ポジション限度）、リアルタイムリスク計算
-- 決済管理：DVP（Delivery Versus Payment）、証券保管振替機構（JASDEC）連携
+## Features
+- Wafer Lot Tracking
+- Equipment Management & Maintenance
+- Process Step Logging
+- Yield Analysis & Wafer Maps
+- Capacity Forecasting
 
-## 市場データ
-- マーケットデータ：東証、大証、NYSE、NASDAQ リアルタイムフィード（マイクロ秒単位）
-- ティックデータ：全約定・気配データ保存、時系列分析
-- 参照データ：銘柄マスタ、コーポレートアクション（分割・併合・配当）
+## Tech Stack
+- Python (FastAPI, SQLAlchemy)
+- PostgreSQL
+- Redis
+- InfluxDB
+- Celery
 
-## デリバティブ
-- オプション：ブラック・ショールズモデル、グリークス計算（デルタ・ガンマ・ベガ）
-- 先物：証拠金計算、限月管理、ロールオーバー
-- スワップ：金利スワップ評価、クレジット・デフォルト・スワップ（CDS）
+## API Documentation
+The API documentation is available at `/docs` when running the service.
 
-## リスク管理
-- VaR（バリュー・アット・リスク）計算：ヒストリカル法、モンテカルロ法
-- ストレステスト：シナリオ分析、感応度分析
-- 与信管理：カウンターパーティリスク、担保管理
-
-## 規制対応
-- MiFID II（欧州）、Dodd-Frank法（米国）、金融商品取引法（日本）
-- ベストエグゼキューション、取引報告（TCA: Transaction Cost Analysis）
-
-## 技術要件
-- 超低遅延：マイクロ秒オーダーの処理、C++ + FPGA（ハードウェアアクセラレーション）
-- 高頻度取引（HFT）対応：メモリ内処理、ゼロコピー、カーネルバイパス
-- メッセージング：FIX プロトコル（4.2、4.4、5.0）、高速バイナリプロトコル
-- データベース：インメモリDB（TimesTen、Aerospike）、ティックストア（KDB+）
-- 障害対策：ホットスタンバイ、フェイルオーバー（ミリ秒）、データ整合性保証
+## Getting Started
+1. Run `docker-compose up -d` to start the services.
+2. The API will be available at `http://localhost:8000`.
