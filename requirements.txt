@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+pydantic
+pytest
+httpx
+aiosqlite
+shapely
