@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+shapely
+celery
+redis
+psycopg2-binary
+pytest
+httpx
+asyncpg
