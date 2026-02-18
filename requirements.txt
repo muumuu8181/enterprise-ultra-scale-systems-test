@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+asyncpg
+aiosqlite
+aioredis
+aiokafka
+pydantic
+pytest
+pytest-asyncio
+httpx
+geopy
+greenlet
