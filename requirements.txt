@@ -1,0 +1,8 @@
+fastapi
+pydantic
+sqlalchemy
+geoalchemy2
+celery
+redis
+kafka-python
+psycopg2-binary
