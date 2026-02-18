@@ -1,0 +1,40 @@
+# ゲームプラットフォームのアプリケーション設定
+
+image:
+  repository: muumuu8181/game-platform
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# デフォルトレプリカ数
+replicaCount: 5
+
+service:
+  type: ClusterIP
+  port: 8000
+
+autoscaling:
+  enabled: true
+  # HPA設定: 最小5, 最大50 (ガチャイベント対応)
+  minReplicas: 5
+  maxReplicas: 50
+  targetCPUUtilizationPercentage: 60
+
+podDisruptionBudget:
+  # 最小利用可能数
+  minAvailable: 3
+
+redisCluster:
+  enabled: true
+  # Redisクラスタ設定: 6ノード (3マスター + 3レプリカ)
+  replicas: 6
+  image: redis:7-alpine
+  storage: 10Gi
+
+resources:
+  # リソース要求と制限
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
