@@ -1,27 +1,3 @@
-# CMake
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
-*.cmake
-CTestTestfile.cmake
-CPackConfig.cmake
-CPackSourceConfig.cmake
-
-# Build artifacts
-*.o
-*.a
-*.so
-*.dylib
-*.dll
-*.exe
-trading_system
-
-# Temporary files
-*~
-*.swp
-.DS_Store
-
-# IDEs
-.vscode/
-.idea/
+__pycache__/
+*.pyc
+*.db
