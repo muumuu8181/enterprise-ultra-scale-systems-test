@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+alembic
+geoalchemy2
+asyncio-mqtt
+numpy
+pydantic
+pydantic-settings
+pytest
+pytest-asyncio
+httpx
+shapely
