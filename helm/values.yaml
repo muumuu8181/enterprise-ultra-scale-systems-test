@@ -1,0 +1,15 @@
+# AI/ML 基盤設定値
+
+mlflow:
+  # MLflow トラッキングサーバーのURI
+  uri: "http://mlflow.default.svc.cluster.local:5000"
+
+s3:
+  # S3 互換ストレージのエンドポイント (MinIOなど)
+  endpoint: "http://minio.default.svc.cluster.local:9000"
+  bucket: "ml-models"
+
+gpu:
+  # GPU リソースの有効化フラグ
+  enabled: true
+  type: "nvidia"

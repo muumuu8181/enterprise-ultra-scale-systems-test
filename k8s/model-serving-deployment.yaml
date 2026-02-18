@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-serving
+  labels:
+    app: model-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-serving
+  template:
+    metadata:
+      labels:
+        app: model-serving
+    spec:
+      containers:
+      # メインコンテナ: モデル推論APIなど
+      - name: server
+        image: model-server:latest
+        ports:
+        - containerPort: 8080
+
+      # サイドカーコンテナ: Prometheus Exporter
+      - name: prometheus-exporter
+        image: prometheus-exporter:latest
+        ports:
+        - containerPort: 9090
