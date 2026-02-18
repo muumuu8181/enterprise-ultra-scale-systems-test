@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+pydantic
+pydantic-settings
+shapely
+asyncpg
+httpx
+celery[redis]
