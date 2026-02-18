@@ -1,35 +1,49 @@
-# 証券会社向けトレーディングシステム（株式・債券・デリバティブ）
+# 銀行コアバンキングシステム (Core Banking System)
 
-予想コード量: 240,000行以上
+## 概要
+銀行の基幹業務（勘定系）を司るシステムです。預金、為替、融資、決済などの主要業務をサポートし、高い可用性とスケーラビリティを実現します。
 
-## 取引機能
-- 注文管理：成行・指値・逆指値、アルゴリズム取引（VWAP、TWAP、Iceberg）
-- 執行管理：スマートオーダールーティング（複数市場への最良執行）
-- リスク管理：プレトレードリスクチェック（与信枠、ポジション限度）、リアルタイムリスク計算
-- 決済管理：DVP（Delivery Versus Payment）、証券保管振替機構（JASDEC）連携
+## 目標
+- **コード量**: 250,000行以上 (Step 1-10完遂時)
+- **性能**: 10,000 TPS、レスポンスタイム1秒以内
+- **可用性**: 99.999% (年間ダウンタイム5分以内)
+- **セキュリティ**: Basel III準拠、AML/CFT対応
+- **トランザクション**: ACID保証、2相コミット、Sagaパターン
 
-## 市場データ
-- マーケットデータ：東証、大証、NYSE、NASDAQ リアルタイムフィード（マイクロ秒単位）
-- ティックデータ：全約定・気配データ保存、時系列分析
-- 参照データ：銘柄マスタ、コーポレートアクション（分割・併合・配当）
+## 技術スタック
+- **Backend (Transaction)**: Java 17+ (Spring Boot 3.x)
+- **Backend (Data Processing)**: Python 3.11+ (FastAPI, Pandas)
+- **Database**: PostgreSQL 15 (Replication), Redis 7.x (Cache)
+- **Message Queue**: Apache Kafka 3.x
+- **Container**: Docker, Kubernetes
+- **Monitoring**: Prometheus, Grafana
 
-## デリバティブ
-- オプション：ブラック・ショールズモデル、グリークス計算（デルタ・ガンマ・ベガ）
-- 先物：証拠金計算、限月管理、ロールオーバー
-- スワップ：金利スワップ評価、クレジット・デフォルト・スワップ（CDS）
+## プロジェクト構造
+- `backend-java/`: トランザクション処理を担うメインのバックエンド (Spring Boot)
+- `backend-python/`: データ分析、バッチ処理、リスク計算などを担うバックエンド (Python)
+- `docs/`: 要件定義、アーキテクチャ設計書
+- `k8s/`: Kubernetes マニフェスト
+- `legacy_trading_system/`: (旧) 証券トレーディングシステム
 
-## リスク管理
-- VaR（バリュー・アット・リスク）計算：ヒストリカル法、モンテカルロ法
-- ストレステスト：シナリオ分析、感応度分析
-- 与信管理：カウンターパーティリスク、担保管理
+## セットアップ
+### 前提条件
+- Docker & Docker Compose
+- Java 17+
+- Python 3.11+
+- Maven 3.8+
 
-## 規制対応
-- MiFID II（欧州）、Dodd-Frank法（米国）、金融商品取引法（日本）
-- ベストエグゼキューション、取引報告（TCA: Transaction Cost Analysis）
+### 起動方法
+```bash
+# インフラストラクチャの起動
+docker-compose up -d
 
-## 技術要件
-- 超低遅延：マイクロ秒オーダーの処理、C++ + FPGA（ハードウェアアクセラレーション）
-- 高頻度取引（HFT）対応：メモリ内処理、ゼロコピー、カーネルバイパス
-- メッセージング：FIX プロトコル（4.2、4.4、5.0）、高速バイナリプロトコル
-- データベース：インメモリDB（TimesTen、Aerospike）、ティックストア（KDB+）
-- 障害対策：ホットスタンバイ、フェイルオーバー（ミリ秒）、データ整合性保証
+# Javaバックエンドのビルドと実行
+cd backend-java
+mvn clean package
+java -jar target/core-banking-0.0.1-SNAPSHOT.jar
+
+# Pythonバックエンドの実行
+cd ../backend-python
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
