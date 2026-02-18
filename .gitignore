@@ -25,3 +25,6 @@ trading_system
 # IDEs
 .vscode/
 .idea/
+ml_featurestore.db
+__pycache__/
+*.pyc
