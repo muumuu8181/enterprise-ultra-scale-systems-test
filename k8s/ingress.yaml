@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: banking-core-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "100" # 100 req/s rate limit
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - banking.example.com
+    secretName: banking-tls
+  rules:
+  - host: banking.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: banking-core-service
+            port:
+              number: 80

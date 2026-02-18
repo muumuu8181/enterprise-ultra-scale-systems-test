@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-core
+  labels:
+    app: banking-core
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: banking-core
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: banking-core
+    spec:
+      containers:
+      - name: banking-core
+        image: muumuu8181/banking-core:latest # プレースホルダー画像 (Placeholder image)
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000 # FastAPI default
+        envFrom:
+        - configMapRef:
+            name: banking-core-config
+        - secretRef:
+            name: banking-core-secret
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
