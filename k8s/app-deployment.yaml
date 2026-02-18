@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: v2x-app
+  labels:
+    app: v2x-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: v2x-app
+  template:
+    metadata:
+      labels:
+        app: v2x-app
+    spec:
+      priorityClassName: v2x-critical
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - v2x-app
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: v2x-app
+        image: your-registry/v2x-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 2
+          timeoutSeconds: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 2
+          timeoutSeconds: 1
+          failureThreshold: 3
+        env:
+        - name: NATS_URL
+          value: "nats://nats:4222"
+        - name: RABBITMQ_URL
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-secret
+              key: rabbitmq-endpoint-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: v2x-app
+spec:
+  selector:
+    app: v2x-app
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: ClusterIP
