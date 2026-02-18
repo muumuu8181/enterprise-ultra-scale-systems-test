@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+sqlalchemy[asyncio]
+alembic
+asyncpg
+pydantic-settings
+structlog
+redis
+greenlet
+ruff
+mypy
+pytest
+pytest-asyncio
+httpx
+pytest-cov
+coverage
+celery
