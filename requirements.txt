@@ -1,0 +1,11 @@
+fastapi
+sqlalchemy
+pydantic
+pytest
+pytest-asyncio
+httpx
+uvicorn
+asyncpg
+aiosqlite
+redis
+celery[redis]
