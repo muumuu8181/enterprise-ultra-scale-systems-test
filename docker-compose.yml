@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    image: python:3.9
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "pip install -r requirements.txt && uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:password@postgres:5432/theme_park
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    image: python:3.9
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "pip install -r requirements.txt && celery -A src.worker.celery_app worker --loglevel=info"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:password@postgres:5432/theme_park
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=theme_park
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
