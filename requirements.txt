@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+redis
+celery
+pytest
+httpx
+pydantic
+asyncpg
+greenlet
+pytest-asyncio
+python-multipart
+requests
