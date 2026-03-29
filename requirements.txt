@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+geoalchemy2
+psycopg2-binary
+celery
+redis
+pydantic
+shapely
