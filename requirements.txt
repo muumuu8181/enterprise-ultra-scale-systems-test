@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+psycopg2-binary
+asyncpg
+celery
+redis
+minio
+pytest
+httpx
+python-multipart
+alembic
+pydantic-settings
+pytest-asyncio
+aiosqlite
